@@ -1,4 +1,4 @@
-package edu.gsu.ays.gpi.inoisbatch.demo.config;
+package edu.gsu.ays.gpi.inoisbatch.config;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import edu.gsu.ays.gpi.inoisbatch.demo.tasks.ProcessEntityData;
-import edu.gsu.ays.gpi.inoisbatch.demo.tasks.ProcessHashData;
+import edu.gsu.ays.gpi.inoisbatch.tasks.ProcessEntityData;
+import edu.gsu.ays.gpi.inoisbatch.tasks.ProcessHashData;
 
 @Configuration
 @EnableBatchProcessing

@@ -1,4 +1,4 @@
-package edu.gsu.ays.gpi.inoisbatch.demo;
+package edu.gsu.ays.gpi.inoisbatch;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
