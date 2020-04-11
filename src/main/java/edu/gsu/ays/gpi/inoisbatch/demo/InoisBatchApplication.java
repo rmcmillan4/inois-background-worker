@@ -5,12 +5,14 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class InoisBatchApplication implements CommandLineRunner {
+@EnableScheduling
+public class InoisBatchApplication {
 
     @Autowired
     JobLauncher jobLauncher;
@@ -22,8 +24,8 @@ public class InoisBatchApplication implements CommandLineRunner {
         SpringApplication.run(InoisBatchApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception
+    @Scheduled(cron = "0 */1 * * * ?")
+    public void perform() throws Exception
     {
         JobParameters params = new JobParametersBuilder()
                 .addString("JobID", String.valueOf(System.currentTimeMillis()))
