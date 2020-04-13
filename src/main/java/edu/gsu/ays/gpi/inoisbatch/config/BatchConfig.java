@@ -1,21 +1,31 @@
 package edu.gsu.ays.gpi.inoisbatch.config;
 
+import edu.gsu.ays.gpi.inoisbatch.db.DBConfig;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import edu.gsu.ays.gpi.inoisbatch.tasks.ProcessEntityData;
 import edu.gsu.ays.gpi.inoisbatch.tasks.ProcessHashData;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchConfig {
+public class BatchConfig extends DefaultBatchConfigurer {
+
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private JobBuilderFactory jobs;
@@ -23,10 +33,29 @@ public class BatchConfig {
     @Autowired
     private StepBuilderFactory steps;
 
+    @Autowired
+    public BatchConfig(@Qualifier("coreJdbcTemplate") JdbcTemplate jdbcTemplate) { this.jdbcTemplate = jdbcTemplate; }
+
+
+
+/*    @Override
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        //DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        DriverManagerDataSource dataSource = dbConfig.coreDataSource();
+
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/springjdbc");
+        dataSource.setUsername("guest_user");
+        dataSource.setPassword("guest_password");
+
+        return dataSource;
+    }*/
+
     @Bean
     public Step stepOne(){
         return steps.get("ProcessEntityData")
-                .tasklet(new ProcessEntityData())
+                .tasklet(new ProcessEntityData(this.jdbcTemplate))
                 .build();
     }
 
