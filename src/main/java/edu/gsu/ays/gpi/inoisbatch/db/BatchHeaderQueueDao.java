@@ -1,5 +1,7 @@
 package edu.gsu.ays.gpi.inoisbatch.db;
 
+import edu.gsu.ays.gpi.inoisbatch.entity.BatchHeaderQueue;
+import edu.gsu.ays.gpi.inoisbatch.entity.mappers.BatchHeaderQueueMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,10 @@ public class BatchHeaderQueueDao {
     public int getNumberOfRecords(){
         return jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM dbo.batch_header_queue", Integer.class);
+    }
+
+    public BatchHeaderQueue getRecordToProcess(){
+        return jdbcTemplate.queryForObject("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 'Ingest Pending' ORDER BY created;", new BatchHeaderQueueMapper());
     }
 
 }

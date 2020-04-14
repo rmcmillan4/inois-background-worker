@@ -1,6 +1,7 @@
 package edu.gsu.ays.gpi.inoisbatch.tasks;
 
 
+import edu.gsu.ays.gpi.inoisbatch.entity.BatchHeaderQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -31,6 +32,8 @@ public class ProcessEntityData implements Tasklet {
         BatchHeaderQueueDao batchHeaderQueueDao = new BatchHeaderQueueDao(this.jdbcTemplate);
         int records = batchHeaderQueueDao.getNumberOfRecords();
         log.info("records in queue: " + records);
+        BatchHeaderQueue recordToProcess = batchHeaderQueueDao.getRecordToProcess();
+        log.info(recordToProcess.toString());
 
 
         log.info("ProcessEntityData done..");
