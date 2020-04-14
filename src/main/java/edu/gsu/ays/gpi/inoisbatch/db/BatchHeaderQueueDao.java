@@ -24,8 +24,12 @@ public class BatchHeaderQueueDao {
                 "SELECT COUNT(*) FROM dbo.batch_header_queue", Integer.class);
     }
 
-    public BatchHeaderQueue getRecordToProcess(){
+/*    public BatchHeaderQueue getRecordToProcess(){
         return jdbcTemplate.queryForObject("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 'Ingest Pending' ORDER BY created;", new BatchHeaderQueueMapper());
+    }*/
+
+    public BatchHeaderQueue getRecordToProcess(){
+        return jdbcTemplate.queryForObject("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 'Ingest Pending' ORDER BY created DESC;", new BatchHeaderQueueMapper());
     }
 
 }
