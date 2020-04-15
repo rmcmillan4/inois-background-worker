@@ -1,6 +1,7 @@
 package edu.gsu.ays.gpi.inoisbatch.tasks;
 
 
+import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import edu.gsu.ays.gpi.inoisbatch.entity.BatchHeaderQueue;
 import edu.gsu.ays.gpi.inoisbatch.services.DecryptionService;
 import edu.gsu.ays.gpi.inoisbatch.services.FileService;
@@ -15,6 +16,8 @@ import org.springframework.batch.repeat.RepeatStatus;
 import edu.gsu.ays.gpi.inoisbatch.db.BatchHeaderQueueDao;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.List;
 
 @Configuration
 public class ProcessEntityData implements Tasklet {
@@ -33,8 +36,8 @@ public class ProcessEntityData implements Tasklet {
         BatchHeaderQueue recordToProcess = batchHeaderQueueDao.getRecordToProcess();
         String fileContents = FileService.retrieveBlob(recordToProcess.getBatchIdentifier());
         String decryptedFileContents = DecryptionService.decryptFile(fileContents);
-        String salt = KeyService.getCurrentInternalSaltKey();
-        log.info(salt);
+        List<KeyVaultSecret> saltVersions = KeyService.getPreviousInternalSaltKeys();
+        //log.info(salt);
 
         log.info("ProcessEntityData done..");
         return RepeatStatus.FINISHED;
