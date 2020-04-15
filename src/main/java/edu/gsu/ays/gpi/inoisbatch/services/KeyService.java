@@ -6,12 +6,15 @@ import com.azure.security.keyvault.secrets.SecretClient;
 import com.azure.security.keyvault.secrets.SecretClientBuilder;
 import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.azure.security.keyvault.secrets.models.SecretProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class KeyService {
 
+    private static Logger log = LoggerFactory.getLogger(KeyService.class);
     private static final String clientId = System.getenv("APPSETTING_KvAccessClientId");
     private static final String clientSecret = System.getenv("APPSETTING_KvAccessClientSecret");
     private static final String keyVaultUrl = System.getenv("APPSETTING_KvUrl");
