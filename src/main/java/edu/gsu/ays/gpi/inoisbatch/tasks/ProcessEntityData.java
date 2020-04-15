@@ -5,6 +5,7 @@ import edu.gsu.ays.gpi.inoisbatch.entity.BatchHeaderQueue;
 import edu.gsu.ays.gpi.inoisbatch.services.DecryptionService;
 import edu.gsu.ays.gpi.inoisbatch.services.FileService;
 
+import edu.gsu.ays.gpi.inoisbatch.services.KeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -32,7 +33,8 @@ public class ProcessEntityData implements Tasklet {
         BatchHeaderQueue recordToProcess = batchHeaderQueueDao.getRecordToProcess();
         String fileContents = FileService.retrieveBlob(recordToProcess.getBatchIdentifier());
         String decryptedFileContents = DecryptionService.decryptFile(fileContents);
-        log.info(decryptedFileContents);
+        String salt = KeyService.getCurrentInternalSaltKey();
+        log.info(salt);
 
         log.info("ProcessEntityData done..");
         return RepeatStatus.FINISHED;
