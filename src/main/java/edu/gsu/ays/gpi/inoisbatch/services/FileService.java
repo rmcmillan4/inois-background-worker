@@ -33,6 +33,7 @@ public class FileService {
             blobContents = outputStream.toString();
         }
         catch (Exception ex){
+            log.error("File download failed.");
             log.error(ex.getMessage());
             throw ex;
         }

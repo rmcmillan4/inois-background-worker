@@ -32,7 +32,7 @@ public class ProcessEntityData implements Tasklet {
         BatchHeaderQueue recordToProcess = batchHeaderQueueDao.getRecordToProcess();
         String fileContents = FileService.retrieveBlob(recordToProcess.getBatchIdentifier());
         String decryptedFileContents = DecryptionService.decryptFile(fileContents);
-
+        log.info(decryptedFileContents);
 
         log.info("ProcessEntityData done..");
         return RepeatStatus.FINISHED;

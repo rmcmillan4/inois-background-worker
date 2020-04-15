@@ -14,11 +14,8 @@ public class DecryptionService {
     public static String decryptFile(String fileContents) {
         log.info("Decrypting file...");
 
-        final Key key = new Key("wIFnWSvZv-3cuPuz19WKkqIudlwCYnynMI1VyjJg0dE=");
+        final Key key = new Key(KeyService.getEncryptionKey());
         final Token token = Token.fromString(fileContents);
-
-        /*        final Validator<String> validator = new StringValidator() {
-        };*/
 
         final Validator < String > validator = new StringValidator() {
             public TemporalAmount getTimeToLive() {
@@ -28,7 +25,6 @@ public class DecryptionService {
 
         final String payload = token.validateAndDecrypt(key, validator);
         log.info("Decryption successful.");
-        log.info(payload);
 
         return payload;
     }
