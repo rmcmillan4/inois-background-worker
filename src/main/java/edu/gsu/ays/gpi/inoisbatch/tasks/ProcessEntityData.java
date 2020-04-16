@@ -3,11 +3,8 @@ package edu.gsu.ays.gpi.inoisbatch.tasks;
 
 import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import edu.gsu.ays.gpi.inoisbatch.entity.BatchHeaderQueue;
-import edu.gsu.ays.gpi.inoisbatch.services.DecryptionService;
-import edu.gsu.ays.gpi.inoisbatch.services.FileService;
+import edu.gsu.ays.gpi.inoisbatch.services.*;
 
-import edu.gsu.ays.gpi.inoisbatch.services.HashService;
-import edu.gsu.ays.gpi.inoisbatch.services.KeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -37,6 +34,9 @@ public class ProcessEntityData implements Tasklet {
         BatchHeaderQueue recordToProcess = batchHeaderQueueDao.getRecordToProcess();
         String fileContents = FileService.retrieveBlob(recordToProcess.getBatchIdentifier());
         String decryptedFileContents = DecryptionService.decryptFile(fileContents);
+        log.info(decryptedFileContents);
+
+        CSVService.processCSV();
 
         log.info("ProcessEntityData done..");
         return RepeatStatus.FINISHED;

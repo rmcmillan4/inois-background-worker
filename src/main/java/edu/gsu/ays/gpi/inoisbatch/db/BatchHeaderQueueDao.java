@@ -24,7 +24,7 @@ public class BatchHeaderQueueDao {
     }*/
 
     public BatchHeaderQueue getRecordToProcess(){
-        return jdbcTemplate.queryForObject("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 'Ingest Pending' ORDER BY created DESC;", new BatchHeaderQueueMapper());
+        return jdbcTemplate.queryForObject("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 1 ORDER BY created DESC;", new BatchHeaderQueueMapper());
     }
 
 }

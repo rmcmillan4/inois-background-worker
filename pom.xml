@@ -46,6 +46,13 @@
             <version>1.56</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.univocity</groupId>
+            <artifactId>univocity-parsers</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+
         <dependency>
             <groupId>com.macasaet.fernet</groupId>
             <artifactId>fernet-java8</artifactId>
