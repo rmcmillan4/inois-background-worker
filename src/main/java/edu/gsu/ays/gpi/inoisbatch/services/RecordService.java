@@ -36,7 +36,9 @@ public class RecordService {
         try{
             String saltKey = KeyService.getCurrentInternalSaltKey();
             for (InoisEntity record: entity.retrieveBatch()){
+                log.info("Hashing record: " + record.toString());
                 record.hash(saltKey);
+                log.info("Hashed record: " + record.toString());
             }
         }
         catch (Exception ex){

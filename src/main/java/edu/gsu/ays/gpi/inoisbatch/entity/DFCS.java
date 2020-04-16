@@ -284,7 +284,52 @@ public class DFCS implements InoisEntity {
     }
 
     public List<DFCS> retrieveBatch(){
-        List<DFCS> entities = batch;
         return batch;
+    }
+
+    @Override
+    public String toString() {
+        return "DFCS Record{" +
+                "CD_ADOPT_CNTRY='" + cdAdoptCntry + "', " +
+                "CD_ADOPT_COUNTY='" + cdAdoptCounty + "', " +
+                "CD_PERSON_CHAR='" + cdPersonChar + "', " +
+                "CD_PERSON_DEATH='" + cdPersonDeath + "', " +
+                "CD_ADOPT_STATE='" + cdAdoptState + "', " +
+                "CD_PERSON_ETHNIC_GROUP='" + cdPersonEthnicGroup + "', " +
+                "CD_PERSON_IMMIGRATION_STATUS='" + cdPersonImmigrationStatus + "', " +
+                "CD_PERSON_LANGUAGE='" + cdPersonILanguage + "', " +
+                "CD_PERSON_LIV_ARR='" + cdPersonLivArr + "', " +
+                "CD_PERSON_MARITAL_STATUS='" + cdPersonMaritalStatus + "', " +
+                "CD_PERSON_PROOF_CITIZENSHIP='" + cdPersonProofCitizenship + "', " +
+                "CD_PERSON_RELIGION='" + cdPersonReligion + "', " +
+                "CD_PERSON_SEX='" + cdPersonSex + "', " +
+                "CD_PERSON_STATUS='" + cdPersonStatus + "', " +
+                "CD_PERSON_SUFFIX='" + cdPersonSuffix + "', " +
+                "CD_PERSON_TITLE='" + cdPersonTitle + "', " +
+                "CD_SINGLE_MOTHER_FATHER='" + cdSingleMotherFather + "', " +
+                "DT_DISSOLUTION='" + dtDissolution + "', " +
+                "DT_PERSON_BIRTH='" + dtPersonBirth + "', " +
+                "DT_PERSON_DEATH='" + dtPersonDeath + "', " +
+                "GENDER='" + gender + "', " +
+                "ID_PERSON='" + idPerson + "', " +
+                "IND_AUTO_PERS_MERGE='" + indAutoPersMerge + "', " +
+                "IND_PERSON_DOB_APPROX='" + indPersonDobApprox + "', " +
+                "IND_PREV_ADOPTED='" + indPrevAdopted + "', " +
+                "IND_PREV_ADOPTED='" + indPrevAdopted + "', " +
+                "IND_PUBLIC='" + indPublic + "', " +
+                "IND_SINGLE_PAR_ADOPT='" + indSingleParentAdopt + "', " +
+                "NBR_PERSON_AGE='" + nbrPersonAge + "', " +
+                "NBR_PERSON_ID_NUMBER='" + nbrPersonIdNumber + "', " +
+                "NBR_PERSON_PHONE='" + nbrPersonPhone + "', " +
+                "NM_PERSON_FIRST='" + nmPersonFirst + "', " +
+                "NM_PERSON_LAST='" + nmPersonLast + "', " +
+                "NM_PERSON_FULL='" + nmPersonFull + "', " +
+                "TXT_NAME_OF_ADO_AGENCY='" + txtNameOfAdoAgency + "', " +
+                "TXT_PERSON_OCCUPATION='" + txtPersonOccupation + "', " +
+                "TXT_PERSON_OTHER_RELATIONSHIPS='" + txtPersonOtherRelationships + "', " +
+                "ID_PERSON_hash='" + idPersonHash + "', " +
+                "NBR_PERSON_ID_NUMBER_hash='" + nbrPersonIdNumberHash +
+                "}";
+
     }
 }
