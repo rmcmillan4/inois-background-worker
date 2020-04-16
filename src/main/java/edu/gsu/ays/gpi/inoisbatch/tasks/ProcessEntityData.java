@@ -4,6 +4,7 @@ package edu.gsu.ays.gpi.inoisbatch.tasks;
 import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import edu.gsu.ays.gpi.inoisbatch.entity.BatchHeaderQueue;
 import edu.gsu.ays.gpi.inoisbatch.entity.DFCS;
+import edu.gsu.ays.gpi.inoisbatch.entity.InoisEntity;
 import edu.gsu.ays.gpi.inoisbatch.services.*;
 
 import org.slf4j.Logger;
@@ -35,11 +36,13 @@ public class ProcessEntityData implements Tasklet {
         BatchHeaderQueue recordToProcess = batchHeaderQueueDao.getRecordToProcess();
         String fileContents = FileService.retrieveBlob(recordToProcess.getBatchIdentifier());
         String decryptedFileContents = DecryptionService.decryptFile(fileContents);
-        log.info(decryptedFileContents);
+        //log.info(decryptedFileContents);
 
         //CSVService.processCSV();
-        DFCS dfcs = new DFCS();
-        dfcs.readBatch(decryptedFileContents);
+        //InoisEntity dfcs = new DFCS();
+        //dfcs.readBatch(decryptedFileContents);
+
+        RecordService.processCsv(new DFCS(), decryptedFileContents);
 
         log.info("ProcessEntityData done..");
         return RepeatStatus.FINISHED;

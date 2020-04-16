@@ -3,6 +3,7 @@ package edu.gsu.ays.gpi.inoisbatch.entity;
 import com.univocity.parsers.common.processor.BeanListProcessor;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
+import edu.gsu.ays.gpi.inoisbatch.services.HashService;
 import org.apache.commons.lang3.NotImplementedException;
 import com.univocity.parsers.annotations.Parsed;
 
@@ -125,9 +126,21 @@ public class DFCS implements InoisEntity {
     @Parsed(field = "TXT_PERSON_OTHER_RELATIONSHIPS")
     private String txtPersonOtherRelationships;
 
+    @Parsed(field = "ID_PERSON_hash")
+    private String idPersonHash;
+
+    @Parsed(field = "NBR_PERSON_ID_NUMBER_hash")
+    private String nbrPersonIdNumberHash;
+
 
 
     public DFCS(){}
+
+    public String getNbrPersonIdNumberHash() { return nbrPersonIdNumberHash; }
+    public void setNbrPersonIdNumberHash(String nbrPersonIdNumberHash) { this.nbrPersonIdNumberHash = nbrPersonIdNumberHash; }
+
+    public String getIdPersonHash() { return idPersonHash; }
+    public void setIdPersonHash(String idPersonHash) { this.idPersonHash = idPersonHash; }
 
     public String getTxtPersonOtherRelationships() { return txtPersonOtherRelationships; }
     public void setTxtPersonOtherRelationships(String txtPersonOtherRelationships) { this.txtPersonOtherRelationships = txtPersonOtherRelationships; }
@@ -242,8 +255,9 @@ public class DFCS implements InoisEntity {
 
 
 
-    public void hash(){
-        throw new NotImplementedException("");
+    public void hash(String saltKey){
+        idPersonHash = HashService.hashValue(idPersonHash, saltKey);
+        nbrPersonIdNumberHash = HashService.hashValue(nbrPersonIdNumberHash, saltKey);
     }
 
     public void readBatch(String csv) throws IOException {
@@ -267,5 +281,10 @@ public class DFCS implements InoisEntity {
 
     public void writeBatch(List<InoisEntity> batch){
         throw new NotImplementedException("");
+    }
+
+    public List<DFCS> retrieveBatch(){
+        List<DFCS> entities = batch;
+        return batch;
     }
 }

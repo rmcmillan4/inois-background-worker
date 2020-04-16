@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface InoisEntity {
 
-    public void hash();
+    public void hash(String saltKey);
 
     public void readBatch(String csv) throws IOException;
 
     public void writeBatch(List<InoisEntity> instances);
+
+    public <T extends InoisEntity> List<T> retrieveBatch();
 
 }
