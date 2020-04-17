@@ -315,7 +315,6 @@ public class DFCS implements InoisEntity {
                 "IND_AUTO_PERS_MERGE='" + indAutoPersMerge + "', " +
                 "IND_PERSON_DOB_APPROX='" + indPersonDobApprox + "', " +
                 "IND_PREV_ADOPTED='" + indPrevAdopted + "', " +
-                "IND_PREV_ADOPTED='" + indPrevAdopted + "', " +
                 "IND_PUBLIC='" + indPublic + "', " +
                 "IND_SINGLE_PAR_ADOPT='" + indSingleParentAdopt + "', " +
                 "NBR_PERSON_AGE='" + nbrPersonAge + "', " +

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class RecordService {
 
-    private static Logger log = LoggerFactory.getLogger(KeyService.class);
+    private static Logger log = LoggerFactory.getLogger(RecordService.class);
 
     public static void processCsv(InoisEntity entity, String csv){
         readCsv(entity, csv);
