@@ -14,6 +14,7 @@ public class RecordService {
     public static void processCsv(InoisEntity entity, String csv){
         readCsv(entity, csv);
         hashRecords(entity);
+        writeRecords(entity);
     }
 
     public static void readCsv(InoisEntity entity, String csv){
@@ -47,5 +48,19 @@ public class RecordService {
             throw new RuntimeException("Failed to hash parsed records.");
         }
         log.info("Successfully hashed all records.");
+    }
+
+    public static void writeRecords(InoisEntity entity) {
+        log.info("Writings records...");
+
+        try{
+            entity.writeBatch();
+        }
+        catch (Exception ex){
+            log.error("Record write to the DB failed");
+            log.error(ex.getMessage());
+            throw new RuntimeException("Failed to write processed records to the DB.");
+        }
+        log.info("Records successfully written.");
     }
 }

@@ -303,19 +303,21 @@ public class DFCS implements InoisEntity {
     }
 
     @Transactional
-    public void writeBatch(List<InoisEntity> batch){
+    public void writeBatch(){
 
-/*        int[][] updateCounts = jdbcTemplate.batchUpdate(
-                "INSERT INTO dbo.dfcs (CREATED, CREATED_BY, UPDATED," +
-                        ") values(NOW(),?, NOW(), ?)",
+        int[][] updateCounts = jdbcTemplate.batchUpdate(
+                "INSERT INTO dbo.dfcs (CREATED, CREATED_BY, UPDATED, UPDATED_BY, ID_PERSON_hash, NBR_PERSON_ID_NUMBER_hash" +
+                        ") values(CURRENT_TIMESTAMP,?, CURRENT_TIMESTAMP, ?, ?, ?)",
                 this.batch,
                 50, //batch size
                 new ParameterizedPreparedStatementSetter<DFCS>() {
                     public void setValues(PreparedStatement ps, DFCS entity) throws SQLException {
-                        ps.setString(1, entity.getUser());
-                        ps.setBigDecimal(2, entity.getPrice());
+                        ps.setString(1, user);
+                        ps.setString(2, user);
+                        ps.setString(3, entity.getIdPersonHash());
+                        ps.setString(4, entity.getNbrPersonIdNumberHash());
                     }
-                }););*/
+                });
     }
 
     public List<DFCS> retrieveBatch(){

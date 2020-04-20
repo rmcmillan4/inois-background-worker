@@ -10,7 +10,7 @@ public interface InoisEntity {
 
     public void readBatch(String csv) throws IOException;
 
-    public void writeBatch(List<InoisEntity> instances);
+    public void writeBatch();
 
     public <T extends InoisEntity> List<T> retrieveBatch();
 
