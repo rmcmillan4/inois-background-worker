@@ -4,6 +4,8 @@ import com.macasaet.fernet.*;
 import java.time.temporal.TemporalAmount;
 import java.time.Duration;
 import java.time.Instant;
+
+import edu.gsu.ays.gpi.inoisbatch.exceptions.FileDecryptionError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,18 +16,27 @@ public class DecryptionService {
     public static String decryptFile(String fileContents) {
         log.info("Decrypting file...");
 
-        final Key key = new Key(KeyService.getEncryptionKey());
-        final Token token = Token.fromString(fileContents);
+        try{
+            final Key key = new Key(KeyService.getEncryptionKey());
+            final Token token = Token.fromString(fileContents);
 
-        final Validator < String > validator = new StringValidator() {
-            public TemporalAmount getTimeToLive() {
-                return Duration.ofSeconds(Instant.MAX.getEpochSecond());
-            }
-        };
+            final Validator < String > validator = new StringValidator() {
+                public TemporalAmount getTimeToLive() {
+                    return Duration.ofSeconds(Instant.MAX.getEpochSecond());
+                }
+            };
 
-        final String payload = token.validateAndDecrypt(key, validator);
-        log.info("Decryption successful.");
+            final String payload = token.validateAndDecrypt(key, validator);
+            log.info("Decryption successful.");
 
-        return payload;
+            return payload;
+        }
+
+        catch (Exception ex){
+            log.error("File decryption failed.");
+            log.error(ex.getMessage());
+            throw new FileDecryptionError("Decryption failed due to invalid file contents.");
+        }
+
     }
 }

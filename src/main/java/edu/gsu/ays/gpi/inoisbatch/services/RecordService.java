@@ -1,6 +1,9 @@
 package edu.gsu.ays.gpi.inoisbatch.services;
 
 import edu.gsu.ays.gpi.inoisbatch.entity.InoisEntity;
+import edu.gsu.ays.gpi.inoisbatch.exceptions.DBTransactionError;
+import edu.gsu.ays.gpi.inoisbatch.exceptions.HashingError;
+import edu.gsu.ays.gpi.inoisbatch.exceptions.InvalidFileFormatError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,9 +27,9 @@ public class RecordService {
             entity.readBatch(csv);
         }
         catch (IOException ex){
-            log.error("Failed to parse CSV file");
+            log.error("CSV parsing failed.");
             log.error(ex.getMessage());
-            throw new RuntimeException("Failed to parse CSV file");
+            throw new InvalidFileFormatError("Failed to parse CSV due to invalid file contents.");
         }
         log.info("Successfully parsed CSV file.");
     }
@@ -45,7 +48,7 @@ public class RecordService {
         catch (Exception ex){
             log.error("Record Hashing Failed");
             log.error(ex.getMessage());
-            throw new RuntimeException("Failed to hash parsed records.");
+            throw new HashingError("Failed to hash parsed records.");
         }
         log.info("Successfully hashed all records.");
     }
@@ -59,7 +62,7 @@ public class RecordService {
         catch (Exception ex){
             log.error("Record write to the DB failed");
             log.error(ex.getMessage());
-            throw new RuntimeException("Failed to write processed records to the DB.");
+            throw new DBTransactionError("Failed to write processed records to the DB.");
         }
         log.info("Records successfully written.");
     }

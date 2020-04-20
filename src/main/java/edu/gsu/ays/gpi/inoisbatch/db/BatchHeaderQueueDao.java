@@ -27,4 +27,8 @@ public class BatchHeaderQueueDao {
         return jdbcTemplate.queryForObject("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 1 ORDER BY created DESC;", new BatchHeaderQueueMapper());
     }
 
+    public void updateRecordToProcess(Long id, Long status){
+        jdbcTemplate.update("UPDATE dbo.batch_header_queue SET updated = CURRENT_TIMESTAMP, status_id = ? WHERE id = ?;", status, id);
+    }
+
 }
