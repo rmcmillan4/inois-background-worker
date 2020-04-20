@@ -41,6 +41,7 @@ public class ProcessEntityData implements Tasklet {
         BatchHeaderQueue recordToProcess = batchHeaderQueueDao.getRecordToProcess();
         if (recordToProcess != null) {
             try{
+                log.info(recordToProcess.toString());
                 batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.PROCESSING_FILE);
                 String fileContents = FileService.retrieveBlob(recordToProcess.getBatchIdentifier());
                 String decryptedFileContents = DecryptionService.decryptFile(fileContents);
@@ -64,6 +65,13 @@ public class ProcessEntityData implements Tasklet {
                 log.error(ex.getMessage());
                 batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.INVALID_FILE_FORMAT_ERROR);
             }
+            catch (OutOfMemoryError ex){
+                log.error(ex.getMessage());
+                batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.INVALID_FILE_FORMAT_ERROR);
+            }
+        }
+        else {
+            log.info("No new records to process.");
         }
 
         return RepeatStatus.FINISHED;
