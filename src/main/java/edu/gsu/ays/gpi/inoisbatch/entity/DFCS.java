@@ -45,7 +45,7 @@ public class DFCS implements InoisEntity {
     private String cdPersonImmigrationStatus;
 
     @Parsed(field = "CD_PERSON_LANGUAGE")
-    private String cdPersonILanguage;
+    private String cdPersonLanguage;
 
     @Parsed(field = "CD_PERSON_LIV_ARR")
     private String cdPersonLivArr;
@@ -244,8 +244,8 @@ public class DFCS implements InoisEntity {
     public String getCdPersonLivArr() { return cdPersonLivArr; }
     public void setCdPersonLivArr(String cdPersonLivArr) { this.cdPersonLivArr = cdPersonLivArr; }
 
-    public String getCdPersonILanguage() { return cdPersonILanguage; }
-    public void setCdPersonILanguage(String cdPersonILanguage) { this.cdPersonILanguage = cdPersonILanguage; }
+    public String getCdPersonLanguage() { return cdPersonLanguage; }
+    public void setCdPersonLanguage(String cdPersonLanguage) { this.cdPersonLanguage = cdPersonLanguage; }
 
     public String getCdPersonImmigrationStatus() { return cdPersonImmigrationStatus; }
     public void setCdPersonImmigrationStatus(String cdPersonImmigrationStatus) { this.cdPersonImmigrationStatus = cdPersonImmigrationStatus; }
@@ -306,8 +306,26 @@ public class DFCS implements InoisEntity {
     public void writeBatch(){
 
         int[][] updateCounts = jdbcTemplate.batchUpdate(
-                "INSERT INTO dbo.dfcs (CREATED, CREATED_BY, UPDATED, UPDATED_BY, ID_PERSON_hash, NBR_PERSON_ID_NUMBER_hash" +
-                        ") values(CURRENT_TIMESTAMP,?, CURRENT_TIMESTAMP, ?, ?, ?)",
+                "INSERT INTO dbo.dfcs (CREATED, CREATED_BY, UPDATED, UPDATED_BY, ID_PERSON_hash, NBR_PERSON_ID_NUMBER_hash, BATCH_IDENTIFIER," +
+                        "CD_ADOPT_CNTRY, CD_ADOPT_COUNTY, CD_PERSON_CHAR, CD_PERSON_DEATH," +
+                        "CD_ADOPT_STATE, CD_PERSON_ETHNIC_GROUP, CD_PERSON_IMMIGRATION_STATUS, CD_PERSON_LANGUAGE," +
+                        "CD_PERSON_LIV_ARR, CD_PERSON_MARITAL_STATUS, CD_PERSON_PROOF_CITIZENSHIP, CD_PERSON_RELIGION," +
+                        "CD_PERSON_SEX, CD_PERSON_STATUS, CD_PERSON_SUFFIX, CD_PERSON_TITLE," +
+                        "CD_SINGLE_MOTHER_FATHER, DT_DISSOLUTION, DT_PERSON_BIRTH, DT_PERSON_DEATH," +
+                        "GENDER, ID_PERSON, IND_AUTO_PERS_MERGE, IND_PERSON_DOB_APPROX," +
+                        "IND_PREV_ADOPTED, IND_PUBLIC, IND_SINGLE_PAR_ADOPT, NBR_PERSON_AGE," +
+                        "NBR_PERSON_ID_NUMBER, NBR_PERSON_PHONE, NM_PERSON_FIRST, NM_PERSON_LAST," +
+                        "NM_PERSON_FULL, TXT_NAME_OF_ADO_AGENCY, TXT_PERSON_OCCUPATION, TXT_PERSON_OTHER_RELATIONSHIPS" +
+                        ") values(CURRENT_TIMESTAMP,?, CURRENT_TIMESTAMP, ?, ?, ?, ?," +
+                        "?, ?, ?, ?," +
+                        "?, ?, ?, ?," +
+                        "?, ?, ?, ?," +
+                        "?, ?, ?, ?," +
+                        "?, ?, ?, ?," +
+                        "?, ?, ?, ?," +
+                        "?, ?, ?, ?," +
+                        "?, ?, ?, ?," +
+                        "?, ?, ?, ?)",
                 this.batch,
                 50, //batch size
                 new ParameterizedPreparedStatementSetter<DFCS>() {
@@ -316,6 +334,52 @@ public class DFCS implements InoisEntity {
                         ps.setString(2, user);
                         ps.setString(3, entity.getIdPersonHash());
                         ps.setString(4, entity.getNbrPersonIdNumberHash());
+                        ps.setString(5, batchId);
+
+                        ps.setString(6, entity.getCdAdoptCntry());
+                        ps.setString(7, entity.getCdAdoptCounty());
+                        ps.setString(8, entity.getCdPersonChar());
+                        ps.setString(9, entity.getCdPersonDeath());
+
+                        ps.setString(10, entity.getCdAdoptState());
+                        ps.setString(11, entity.getCdPersonEthnicGroup());
+                        ps.setString(12, entity.getCdPersonImmigrationStatus());
+                        ps.setString(13, entity.getCdPersonLanguage());
+
+                        ps.setString(14, entity.getCdPersonLivArr());
+                        ps.setString(15, entity.getCdPersonMaritalStatus());
+                        ps.setString(16, entity.getCdPersonProofCitizenship());
+                        ps.setString(17, entity.getCdPersonReligion());
+
+                        ps.setString(18, entity.getCdPersonSex());
+                        ps.setString(19, entity.getCdPersonStatus());
+                        ps.setString(20, entity.getCdPersonSuffix());
+                        ps.setString(21, entity.getCdPersonTitle());
+
+                        ps.setString(22, entity.getCdSingleMotherFather());
+                        ps.setString(23, entity.getDtDissolution());
+                        ps.setString(24, entity.getDtPersonBirth());
+                        ps.setString(25, entity.getDtPersonDeath());
+
+                        ps.setString(26, entity.getGender());
+                        ps.setString(27, entity.getIdPerson());
+                        ps.setString(28, entity.getIndAutoPersMerge());
+                        ps.setString(29, entity.getIndPersonDobApprox());
+
+                        ps.setString(30, entity.getIndPrevAdopted());
+                        ps.setString(31, entity.getIndPublic());
+                        ps.setString(32, entity.getIndSingleParentAdopt());
+                        ps.setString(33, entity.getNbrPersonAge());
+
+                        ps.setString(34, entity.getNbrPersonIdNumber());
+                        ps.setString(35, entity.getNbrPersonPhone());
+                        ps.setString(36, entity.getNmPersonFirst());
+                        ps.setString(37, entity.getNmPersonLast());
+
+                        ps.setString(38, entity.getNmPersonFull());
+                        ps.setString(39, entity.getTxtNameOfAdoAgency());
+                        ps.setString(40, entity.getTxtPersonOccupation());
+                        ps.setString(41, entity.getTxtPersonOtherRelationships());
                     }
                 });
     }
@@ -334,7 +398,7 @@ public class DFCS implements InoisEntity {
                 "CD_ADOPT_STATE='" + cdAdoptState + "', " +
                 "CD_PERSON_ETHNIC_GROUP='" + cdPersonEthnicGroup + "', " +
                 "CD_PERSON_IMMIGRATION_STATUS='" + cdPersonImmigrationStatus + "', " +
-                "CD_PERSON_LANGUAGE='" + cdPersonILanguage + "', " +
+                "CD_PERSON_LANGUAGE='" + cdPersonLanguage + "', " +
                 "CD_PERSON_LIV_ARR='" + cdPersonLivArr + "', " +
                 "CD_PERSON_MARITAL_STATUS='" + cdPersonMaritalStatus + "', " +
                 "CD_PERSON_PROOF_CITIZENSHIP='" + cdPersonProofCitizenship + "', " +
