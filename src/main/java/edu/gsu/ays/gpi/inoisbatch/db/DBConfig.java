@@ -18,25 +18,26 @@ public class DBConfig {
     public DBConfig(Environment environment) {
     }
 
-/*    @Bean(name="datawh")
-    @ConfigurationProperties(prefix = "spring.datasource.datawh")
-    public DriverManagerDataSource datawhDataSource() {
+    @Bean(name="entity")
+    @ConfigurationProperties(prefix = "spring.datasource.entity")
+    public DriverManagerDataSource entityDataSource() {
         return new DriverManagerDataSource();
     }
 
-    @Bean(name = "datawhJdbcTemplate")
+    @Bean(name = "entityJdbcTemplate")
     @Autowired
-    public JdbcTemplate datawhJdbcTemplate(@Qualifier("datawh") DriverManagerDataSource datawh) {
-        return new JdbcTemplate(datawh);
-    }*/
+    public JdbcTemplate entityJdbcTemplate(@Qualifier("entity") DriverManagerDataSource entity) {
+        return new JdbcTemplate(entity);
+    }
 
-
+    @Primary
     @Bean(name="core")
     @ConfigurationProperties(prefix = "spring.datasource.core")
     public DriverManagerDataSource coreDataSource() {
         return new DriverManagerDataSource();
     }
 
+    @Primary
     @Bean(name = "coreJdbcTemplate")
     @Autowired
     public JdbcTemplate coreJdbcTemplate(@Qualifier("core") DriverManagerDataSource core) {

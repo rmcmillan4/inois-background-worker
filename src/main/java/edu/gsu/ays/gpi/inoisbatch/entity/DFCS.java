@@ -6,11 +6,16 @@ import com.univocity.parsers.csv.CsvParserSettings;
 import edu.gsu.ays.gpi.inoisbatch.services.HashService;
 import org.apache.commons.lang3.NotImplementedException;
 import com.univocity.parsers.annotations.Parsed;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,9 +137,22 @@ public class DFCS implements InoisEntity {
     @Parsed(field = "NBR_PERSON_ID_NUMBER_hash")
     private String nbrPersonIdNumberHash;
 
+    private JdbcTemplate jdbcTemplate;
 
+    private String user;
+
+    private String batchId;
+
+
+
+    public DFCS(JdbcTemplate jdbcTemplate, BatchHeaderQueue batchHeaderQueue){
+        this.jdbcTemplate = jdbcTemplate;
+        this.batchId = batchHeaderQueue.getBatchIdentifier();
+        this.user = batchHeaderQueue.getCreatedBy();
+    }
 
     public DFCS(){}
+
 
     public String getNbrPersonIdNumberHash() { return nbrPersonIdNumberHash; }
     public void setNbrPersonIdNumberHash(String nbrPersonIdNumberHash) { this.nbrPersonIdNumberHash = nbrPersonIdNumberHash; }
@@ -253,6 +271,11 @@ public class DFCS implements InoisEntity {
     public List<DFCS> getBatch() { return batch; }
     public void setBatch(List<DFCS> batch) { this.batch = batch; }
 
+    public String getUser() { return user; }
+    public void setUser(String user) { this.user = user; }
+
+    public String getBatchId() { return batchId; }
+    public void setBatchId(String batchId) { this.batchId = batchId; }
 
 
     public void hash(String saltKey){
@@ -279,8 +302,20 @@ public class DFCS implements InoisEntity {
         }
     }
 
+    @Transactional
     public void writeBatch(List<InoisEntity> batch){
-        throw new NotImplementedException("");
+
+/*        int[][] updateCounts = jdbcTemplate.batchUpdate(
+                "INSERT INTO dbo.dfcs (CREATED, CREATED_BY, UPDATED," +
+                        ") values(NOW(),?, NOW(), ?)",
+                this.batch,
+                50, //batch size
+                new ParameterizedPreparedStatementSetter<DFCS>() {
+                    public void setValues(PreparedStatement ps, DFCS entity) throws SQLException {
+                        ps.setString(1, entity.getUser());
+                        ps.setBigDecimal(2, entity.getPrice());
+                    }
+                }););*/
     }
 
     public List<DFCS> retrieveBatch(){

@@ -27,6 +27,8 @@ public class BatchConfig extends DefaultBatchConfigurer {
 
     private JdbcTemplate jdbcTemplate;
 
+    private JdbcTemplate entityJdbcTemplate;
+
     @Autowired
     private JobBuilderFactory jobs;
 
@@ -34,7 +36,11 @@ public class BatchConfig extends DefaultBatchConfigurer {
     private StepBuilderFactory steps;
 
     @Autowired
-    public BatchConfig(@Qualifier("coreJdbcTemplate") JdbcTemplate jdbcTemplate) { this.jdbcTemplate = jdbcTemplate; }
+    public BatchConfig(@Qualifier("coreJdbcTemplate") JdbcTemplate jdbcTemplate,
+                       @Qualifier("entityJdbcTemplate") JdbcTemplate entityJdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.entityJdbcTemplate = entityJdbcTemplate;
+    }
 
 
 
@@ -55,7 +61,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
     @Bean
     public Step stepOne(){
         return steps.get("ProcessEntityData")
-                .tasklet(new ProcessEntityData(this.jdbcTemplate))
+                .tasklet(new ProcessEntityData(this.jdbcTemplate, this.entityJdbcTemplate))
                 .build();
     }
 

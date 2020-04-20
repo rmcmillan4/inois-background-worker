@@ -24,9 +24,13 @@ public class ProcessEntityData implements Tasklet {
 
     Logger log = LoggerFactory.getLogger(ProcessEntityData.class);
     private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate entityJdbcTemplate;
 
 
-    public ProcessEntityData(JdbcTemplate jdbcTemplate){ this.jdbcTemplate = jdbcTemplate; }
+    public ProcessEntityData(JdbcTemplate jdbcTemplate, JdbcTemplate entityJdbcTemplate){
+        this.jdbcTemplate = jdbcTemplate;
+        this.entityJdbcTemplate = entityJdbcTemplate;
+    }
 
 
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception
@@ -36,7 +40,7 @@ public class ProcessEntityData implements Tasklet {
         BatchHeaderQueue recordToProcess = batchHeaderQueueDao.getRecordToProcess();
         String fileContents = FileService.retrieveBlob(recordToProcess.getBatchIdentifier());
         String decryptedFileContents = DecryptionService.decryptFile(fileContents);
-        RecordService.processCsv(new DFCS(), decryptedFileContents);
+        RecordService.processCsv(new DFCS(entityJdbcTemplate, recordToProcess), decryptedFileContents);
         log.info("ProcessEntityData done..");
         return RepeatStatus.FINISHED;
     }
