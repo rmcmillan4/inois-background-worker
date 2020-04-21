@@ -36,38 +36,39 @@ public class ProcessEntityData implements Tasklet {
 
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception
     {
-        log.info("ProcessEntityData start...");
+        log.info("ProcessEntityData task start...");
         BatchHeaderQueueDao batchHeaderQueueDao = new BatchHeaderQueueDao(this.jdbcTemplate);
-        BatchHeaderQueue recordToProcess = batchHeaderQueueDao.getRecordToProcess();
-        if (recordToProcess != null) {
+        List<BatchHeaderQueue> recordsToProcess = batchHeaderQueueDao.getRecordToProcess();
+        if (!recordsToProcess.isEmpty()) {
             try{
-                log.info(recordToProcess.toString());
-                batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.PROCESSING_FILE);
-                String fileContents = FileService.retrieveBlob(recordToProcess.getBatchIdentifier());
+                BatchHeaderQueue record = recordsToProcess.get(0);
+                log.info(record.toString());
+                batchHeaderQueueDao.updateRecordToProcess(record.getId(), FileProcessingStatus.PROCESSING_FILE);
+                String fileContents = FileService.retrieveBlob(record.getBatchIdentifier());
                 String decryptedFileContents = DecryptionService.decryptFile(fileContents);
-                RecordService.processCsv(new DFCS(entityJdbcTemplate, recordToProcess), decryptedFileContents);
-                batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.COMPLETED_SUCCESSFULLY);
+                RecordService.processCsv(new DFCS(entityJdbcTemplate, record), decryptedFileContents);
+                batchHeaderQueueDao.updateRecordToProcess(record.getId(), FileProcessingStatus.COMPLETED_SUCCESSFULLY);
                 log.info("ProcessEntityData done..");
             }
             catch (DBTransactionError ex){
                 log.error(ex.getMessage());
-                batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.DB_TRANSACTION_ERROR);
+                batchHeaderQueueDao.updateRecordToProcess(recordsToProcess.get(0).getId(), FileProcessingStatus.DB_TRANSACTION_ERROR);
             }
             catch (FileDecryptionError ex){
                 log.error(ex.getMessage());
-                batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.FILE_DECRYPTION_ERROR);
+                batchHeaderQueueDao.updateRecordToProcess(recordsToProcess.get(0).getId(), FileProcessingStatus.FILE_DECRYPTION_ERROR);
             }
             catch (HashingError ex){
                 log.error(ex.getMessage());
-                batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.HASHING_ERROR);
+                batchHeaderQueueDao.updateRecordToProcess(recordsToProcess.get(0).getId(), FileProcessingStatus.HASHING_ERROR);
             }
             catch (InvalidFileFormatError ex){
                 log.error(ex.getMessage());
-                batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.INVALID_FILE_FORMAT_ERROR);
+                batchHeaderQueueDao.updateRecordToProcess(recordsToProcess.get(0).getId(), FileProcessingStatus.INVALID_FILE_FORMAT_ERROR);
             }
             catch (OutOfMemoryError ex){
                 log.error(ex.getMessage());
-                batchHeaderQueueDao.updateRecordToProcess(recordToProcess.getId(), FileProcessingStatus.INVALID_FILE_FORMAT_ERROR);
+                batchHeaderQueueDao.updateRecordToProcess(recordsToProcess.get(0).getId(), FileProcessingStatus.OUT_OF_MEMORY_ERROR);
             }
         }
         else {

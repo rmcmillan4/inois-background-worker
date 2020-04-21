@@ -8,5 +8,6 @@ public class FileProcessingStatus {
     public static final long FILE_DECRYPTION_ERROR = 5L;
     public static final long HASHING_ERROR = 6L;
     public static final long DB_TRANSACTION_ERROR = 7L;
+    public static final long OUT_OF_MEMORY_ERROR = 8L;
 
 }

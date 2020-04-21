@@ -3,6 +3,7 @@ package edu.gsu.ays.gpi.inoisbatch.entity;
 import com.univocity.parsers.common.processor.BeanListProcessor;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
+import edu.gsu.ays.gpi.inoisbatch.exceptions.HashingError;
 import edu.gsu.ays.gpi.inoisbatch.services.HashService;
 import org.apache.commons.lang3.NotImplementedException;
 import com.univocity.parsers.annotations.Parsed;
@@ -279,6 +280,7 @@ public class DFCS implements InoisEntity {
 
 
     public void hash(String saltKey){
+        if (idPersonHash == null || nbrPersonIdNumberHash == null) throw new HashingError(("Values to hash cannot be null."));
         idPersonHash = HashService.hashValue(idPersonHash, saltKey);
         nbrPersonIdNumberHash = HashService.hashValue(nbrPersonIdNumberHash, saltKey);
     }

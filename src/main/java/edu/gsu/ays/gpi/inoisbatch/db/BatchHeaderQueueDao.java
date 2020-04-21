@@ -4,6 +4,8 @@ import edu.gsu.ays.gpi.inoisbatch.entity.BatchHeaderQueue;
 import edu.gsu.ays.gpi.inoisbatch.entity.mappers.BatchHeaderQueueMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.List;
+
 
 public class BatchHeaderQueueDao {
 
@@ -19,8 +21,8 @@ public class BatchHeaderQueueDao {
                 "SELECT COUNT(*) FROM dbo.batch_header_queue", Integer.class);
     }
 
-    public BatchHeaderQueue getRecordToProcess(){
-        return jdbcTemplate.queryForObject("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 1 ORDER BY created;", new BatchHeaderQueueMapper());
+    public List<BatchHeaderQueue> getRecordToProcess(){
+        return jdbcTemplate.query("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 1 ORDER BY created;", new BatchHeaderQueueMapper());
     }
 
 /*    public BatchHeaderQueue getRecordToProcess(){

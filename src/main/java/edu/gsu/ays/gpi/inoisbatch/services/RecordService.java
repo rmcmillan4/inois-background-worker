@@ -26,7 +26,7 @@ public class RecordService {
         try{
             entity.readBatch(csv);
         }
-        catch (IOException ex){
+        catch (Exception ex){
             log.error("CSV parsing failed.");
             log.error(ex.getMessage());
             throw new InvalidFileFormatError("Failed to parse CSV due to invalid file contents.");
@@ -35,14 +35,14 @@ public class RecordService {
     }
 
     public static void hashRecords(InoisEntity entity){
-        log.info("Hashing all records...");
+        log.info(String.format("Hashing %s records...", entity.retrieveBatch().size()));
 
         try{
             String saltKey = KeyService.getCurrentInternalSaltKey();
             for (InoisEntity record: entity.retrieveBatch()){
-                log.info("Hashing record: " + record.toString());
+                //log.info("Hashing record: " + record.toString());
                 record.hash(saltKey);
-                log.info("Hashed record: " + record.toString());
+                //log.info("Hashed record: " + record.toString());
             }
         }
         catch (Exception ex){
