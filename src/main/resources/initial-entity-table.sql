@@ -44,3 +44,23 @@ CREATE TABLE dbo.dfcs (
     NBR_PERSON_ID_NUMBER_hash VARCHAR(255) NOT NULL,
     BATCH_IDENTIFIER VARCHAR(255) NOT NULL
 );
+
+
+INSERT INTO [dbo].[file_processing_status] VALUES (1, 'File uploaded - ingest pending');
+INSERT INTO [dbo].[file_processing_status] VALUES (2, 'Ingest started - processing file');
+INSERT INTO [dbo].[file_processing_status] VALUES (3, 'Ingest completed successfully');
+INSERT INTO [dbo].[file_processing_status] VALUES (4, 'Error - invalid file format for ingest');
+INSERT INTO [dbo].[file_processing_status] VALUES (5, 'Error - unable to decrypt file for ingest');
+INSERT INTO [dbo].[file_processing_status] VALUES (6, 'Error - unable to complete secondary hashing');
+INSERT INTO [dbo].[file_processing_status] VALUES (7, 'Error - unable to connect / insert data into DB');
+INSERT INTO [dbo].[file_processing_status] VALUES (8, 'Error - file size too large, out of memory');
+
+CREATE TABLE dbo.dfcs_hash (
+      HASH VARCHAR(255) PRIMARY KEY NOT NULL,
+      CREATED DATETIME NOT NULL,
+      CREATED_BY VARCHAR(255) NOT NULL,
+      UPDATED DATETIME NOT NULL,
+      UPDATED_BY VARCHAR(255) NOT NULL,
+      COLUMN_HASHED VARCHAR(255) NOT NULL,
+      PREVIOUS_HASHES VARCHAR(4000)
+);
