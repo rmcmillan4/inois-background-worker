@@ -1,5 +1,6 @@
 package edu.gsu.ays.gpi.inoisbatch.entity;
 
+import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.univocity.parsers.common.processor.BeanListProcessor;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
@@ -137,6 +138,12 @@ public class DFCS implements InoisEntity {
 
     @Parsed(field = "NBR_PERSON_ID_NUMBER_hash")
     private String nbrPersonIdNumberHash;
+
+    @Parsed(field = "ID_PERSON_previous_hashes")
+    private String idPersonPreviousHashes;
+
+    @Parsed(field = "NBR_PERSON_ID_NUMBER_previous_hashes")
+    private String nbrPersonIdNumberPreviousHashes;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -278,11 +285,23 @@ public class DFCS implements InoisEntity {
     public String getBatchId() { return batchId; }
     public void setBatchId(String batchId) { this.batchId = batchId; }
 
+    public String getIdPersonPreviousHashes() {return idPersonPreviousHashes; }
+    public void setIdPersonPreviousHashes(String idPersonPreviousHashes) { this.idPersonPreviousHashes = idPersonPreviousHashes; }
+
+    public String getNbrPersonIdNumberPreviousHashes() { return nbrPersonIdNumberPreviousHashes; }
+    public void setNbrPersonIdNumberPreviousHashes(String nbrPersonIdNumberPreviousHashes) { this.nbrPersonIdNumberPreviousHashes = nbrPersonIdNumberPreviousHashes; }
+
 
     public void hash(String saltKey){
         if (idPersonHash == null || nbrPersonIdNumberHash == null) throw new HashingError(("Values to hash cannot be null."));
         idPersonHash = HashService.hashValue(idPersonHash, saltKey);
         nbrPersonIdNumberHash = HashService.hashValue(nbrPersonIdNumberHash, saltKey);
+    }
+
+    public void generatePreviousHashes(List<KeyVaultSecret> saltKeys){
+        if (idPersonPreviousHashes == null || nbrPersonIdNumberPreviousHashes == null) throw new HashingError(("Previous hash values cannot be null."));
+        idPersonPreviousHashes = HashService.generatePreviousInternalHashes(idPersonPreviousHashes, saltKeys);
+        nbrPersonIdNumberPreviousHashes = HashService.generatePreviousInternalHashes(nbrPersonIdNumberPreviousHashes, saltKeys);
     }
 
     public void readBatch(String csv) throws IOException {

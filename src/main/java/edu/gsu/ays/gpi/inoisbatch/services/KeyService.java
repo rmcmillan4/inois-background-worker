@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class KeyService {
@@ -44,7 +46,7 @@ public class KeyService {
         return key.getValue();
     }
 
-    public static List<KeyVaultSecret> getPreviousInternalSaltKeys() {
+    public static List<KeyVaultSecret> getAllInternalSaltVersions() {
         SecretClient client = buildSecretClient();
         List<KeyVaultSecret> allSaltVersions = new ArrayList<>();
         for (SecretProperties secretProperties : client.listPropertiesOfSecretVersions(internalSaltKeyName)) {
@@ -52,6 +54,12 @@ public class KeyService {
             //System.out.printf("Received secret with name %s and value %s \n", secretWithValue.getName(), secretWithValue.getValue());
             allSaltVersions.add(secretWithValue);
         }
-        return allSaltVersions;
+        return sortSecretsByCreatedOn(allSaltVersions);
+    }
+
+    private static List<KeyVaultSecret> sortSecretsByCreatedOn(List<KeyVaultSecret> secrets) {
+        Comparator<KeyVaultSecret> compareByCreatedOn = (KeyVaultSecret o1, KeyVaultSecret o2) -> (o2.getProperties().getCreatedOn().compareTo(o1.getProperties().getCreatedOn()));
+        Collections.sort(secrets, compareByCreatedOn);
+        return secrets;
     }
 }

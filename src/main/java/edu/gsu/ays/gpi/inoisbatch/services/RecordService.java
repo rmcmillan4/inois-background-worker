@@ -1,5 +1,6 @@
 package edu.gsu.ays.gpi.inoisbatch.services;
 
+import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import edu.gsu.ays.gpi.inoisbatch.entity.InoisEntity;
 import edu.gsu.ays.gpi.inoisbatch.exceptions.DBTransactionError;
 import edu.gsu.ays.gpi.inoisbatch.exceptions.HashingError;
@@ -39,9 +40,11 @@ public class RecordService {
 
         try{
             String saltKey = KeyService.getCurrentInternalSaltKey();
+            List<KeyVaultSecret> allInternalSaltVersions = KeyService.getAllInternalSaltVersions();
             for (InoisEntity record: entity.retrieveBatch()){
                 //log.info("Hashing record: " + record.toString());
                 record.hash(saltKey);
+                record.generatePreviousHashes(allInternalSaltVersions);
                 //log.info("Hashed record: " + record.toString());
             }
         }
