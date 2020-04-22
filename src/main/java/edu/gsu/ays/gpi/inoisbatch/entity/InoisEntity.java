@@ -18,4 +18,6 @@ public interface InoisEntity {
 
     public void generatePreviousHashes(List<KeyVaultSecret> saltKeys);
 
+    public void writeHashHistory();
+
 }

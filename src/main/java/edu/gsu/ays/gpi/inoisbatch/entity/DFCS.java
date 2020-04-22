@@ -405,6 +405,79 @@ public class DFCS implements InoisEntity {
                 });
     }
 
+    public void writeHashHistory(){
+
+/*        int[][] updateIdPersonHashCounts = jdbcTemplate.batchUpdate(
+                "INSERT INTO dbo.dfcs_hash (CREATED, CREATED_BY, UPDATED, UPDATED_BY, HASH, COLUMN_HASHED, PREVIOUS_HASHES" +
+                        ") values(CURRENT_TIMESTAMP,?, CURRENT_TIMESTAMP, ?, ?, ?, ?)",
+                this.batch,
+                50, //batch size
+                new ParameterizedPreparedStatementSetter<DFCS>() {
+                    public void setValues(PreparedStatement ps, DFCS entity) throws SQLException {
+                        ps.setString(1, user);
+                        ps.setString(2, user);
+                        ps.setString(3, entity.getIdPersonHash());
+                        ps.setString(4, "ID_PERSON_hash");
+                        ps.setString(5, entity.getIdPersonPreviousHashes());
+                    }
+                });*/
+
+        int[][] updateIdPersonHashCounts = jdbcTemplate.batchUpdate(
+                "MERGE INTO dbo.dfcs_hash hash_history\n" +
+                        "USING (VALUES (CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?))  AS history_object(CREATED, CREATED_BY, UPDATED, UPDATED_BY, HASH, COLUMN_HASHED, PREVIOUS_HASHES)\n" +
+                        "ON hash_history.HASH = history_object.HASH\n" +
+                        "\n" +
+                        "WHEN NOT MATCHED THEN\n" +
+                        "    INSERT (CREATED, CREATED_BY, UPDATED, UPDATED_BY, HASH, COLUMN_HASHED, PREVIOUS_HASHES)\n" +
+                        "    VALUES (history_object.CREATED, history_object.CREATED_BY, history_object.UPDATED, history_object.UPDATED_BY, history_object.HASH, history_object.COLUMN_HASHED, history_object.PREVIOUS_HASHES);",
+                this.batch,
+                50, //batch size
+                new ParameterizedPreparedStatementSetter<DFCS>() {
+                    public void setValues(PreparedStatement ps, DFCS entity) throws SQLException {
+                        ps.setString(1, user);
+                        ps.setString(2, user);
+                        ps.setString(3, entity.getIdPersonHash());
+                        ps.setString(4, "ID_PERSON_hash");
+                        ps.setString(5, entity.getIdPersonPreviousHashes());
+                    }
+                });
+
+/*        int[][] updateNbrPersonIdNumberHashCounts = jdbcTemplate.batchUpdate(
+                "INSERT INTO dbo.dfcs_hash (CREATED, CREATED_BY, UPDATED, UPDATED_BY, HASH, COLUMN_HASHED, PREVIOUS_HASHES" +
+                        ") values(CURRENT_TIMESTAMP,?, CURRENT_TIMESTAMP, ?, ?, ?, ?)",
+                this.batch,
+                50, //batch size
+                new ParameterizedPreparedStatementSetter<DFCS>() {
+                    public void setValues(PreparedStatement ps, DFCS entity) throws SQLException {
+                        ps.setString(1, user);
+                        ps.setString(2, user);
+                        ps.setString(3, entity.getNbrPersonIdNumberHash());
+                        ps.setString(4, "NBR_PERSON_ID_NUMBER_hash");
+                        ps.setString(5, entity.getNbrPersonIdNumberPreviousHashes());
+                    }
+                });*/
+
+        int[][] updateNbrPersonIdNumberHashCounts = jdbcTemplate.batchUpdate(
+                "MERGE INTO dbo.dfcs_hash hash_history\n" +
+                        "USING (VALUES (CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?))  AS history_object(CREATED, CREATED_BY, UPDATED, UPDATED_BY, HASH, COLUMN_HASHED, PREVIOUS_HASHES)\n" +
+                        "ON hash_history.HASH = history_object.HASH\n" +
+                        "\n" +
+                        "WHEN NOT MATCHED THEN\n" +
+                        "    INSERT (CREATED, CREATED_BY, UPDATED, UPDATED_BY, HASH, COLUMN_HASHED, PREVIOUS_HASHES)\n" +
+                        "    VALUES (history_object.CREATED, history_object.CREATED_BY, history_object.UPDATED, history_object.UPDATED_BY, history_object.HASH, history_object.COLUMN_HASHED, history_object.PREVIOUS_HASHES);",
+                this.batch,
+                50, //batch size
+                new ParameterizedPreparedStatementSetter<DFCS>() {
+                    public void setValues(PreparedStatement ps, DFCS entity) throws SQLException {
+                        ps.setString(1, user);
+                        ps.setString(2, user);
+                        ps.setString(3, entity.getNbrPersonIdNumberHash());
+                        ps.setString(4, "NBR_PERSON_ID_NUMBER_hash");
+                        ps.setString(5, entity.getNbrPersonIdNumberPreviousHashes());
+                    }
+                });
+    }
+
     public List<DFCS> retrieveBatch(){
         return batch;
     }

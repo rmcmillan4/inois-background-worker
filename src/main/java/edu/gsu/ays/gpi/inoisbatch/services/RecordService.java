@@ -42,7 +42,6 @@ public class RecordService {
             String saltKey = KeyService.getCurrentInternalSaltKey();
             List<KeyVaultSecret> allInternalSaltVersions = KeyService.getAllInternalSaltVersions();
             for (InoisEntity record: entity.retrieveBatch()){
-                //log.info("Hashing record: " + record.toString());
                 record.hash(saltKey);
                 record.generatePreviousHashes(allInternalSaltVersions);
                 //log.info("Hashed record: " + record.toString());
@@ -61,6 +60,7 @@ public class RecordService {
 
         try{
             entity.writeBatch();
+            entity.writeHashHistory();
         }
         catch (Exception ex){
             log.error("Record write to the DB failed");
