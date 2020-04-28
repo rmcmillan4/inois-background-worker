@@ -2,7 +2,8 @@ package edu.gsu.ays.gpi.inoisbatch.tasks;
 
 
 import edu.gsu.ays.gpi.inoisbatch.entity.BatchHeaderQueue;
-import edu.gsu.ays.gpi.inoisbatch.entity.DFCS;
+import edu.gsu.ays.gpi.inoisbatch.entity.InoisEntity;
+import edu.gsu.ays.gpi.inoisbatch.entity.factories.InoisEntityFactory;
 import edu.gsu.ays.gpi.inoisbatch.exceptions.*;
 import edu.gsu.ays.gpi.inoisbatch.utils.FileProcessingStatus;
 import edu.gsu.ays.gpi.inoisbatch.services.*;
@@ -39,13 +40,13 @@ public class ProcessEntityData implements Tasklet {
         List<BatchHeaderQueue> recordsToProcess = batchHeaderQueueDao.getRecordToProcess();
         if (!recordsToProcess.isEmpty()) {
             try{
-                BatchHeaderQueue record = recordsToProcess.get(0);
-                log.info(record.toString());
-                batchHeaderQueueDao.updateRecordToProcess(record.getId(), FileProcessingStatus.PROCESSING_FILE);
-                String fileContents = FileService.retrieveBlob(record.getBatchIdentifier());
+                log.info(recordsToProcess.get(0).toString());
+                batchHeaderQueueDao.updateRecordToProcess(recordsToProcess.get(0).getId(), FileProcessingStatus.PROCESSING_FILE);
+                String fileContents = FileService.retrieveBlob(recordsToProcess.get(0).getBatchIdentifier());
                 String decryptedFileContents = DecryptionService.decryptFile(fileContents);
-                RecordService.processCsv(new DFCS(entityJdbcTemplate, record), decryptedFileContents);
-                batchHeaderQueueDao.updateRecordToProcess(record.getId(), FileProcessingStatus.COMPLETED_SUCCESSFULLY);
+                InoisEntity matchingEntity = InoisEntityFactory.getInoisEntity(entityJdbcTemplate, recordsToProcess.get(0));
+                RecordService.processCsv(matchingEntity, decryptedFileContents);
+                batchHeaderQueueDao.updateRecordToProcess(recordsToProcess.get(0).getId(), FileProcessingStatus.COMPLETED_SUCCESSFULLY);
                 log.info("ProcessEntityData done..");
             }
             catch (DBTransactionError ex){
