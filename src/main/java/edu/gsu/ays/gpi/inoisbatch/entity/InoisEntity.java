@@ -13,7 +13,7 @@ public interface InoisEntity {
 
     public void writeBatch();
 
-    public <T extends InoisEntity> List<T> retrieveBatch();
+    public List<? extends InoisEntity> retrieveBatch();
 
     public void generatePreviousHashes(List<KeyVaultSecret> saltKeys);
 
