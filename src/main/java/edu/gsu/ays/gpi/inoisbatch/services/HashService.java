@@ -4,7 +4,6 @@ import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import edu.gsu.ays.gpi.inoisbatch.exceptions.HashingError;
 import org.bouncycastle.jcajce.provider.digest.SHA3;
 import org.bouncycastle.util.encoders.Hex;
-
 import java.util.Arrays;
 import java.util.List;
 

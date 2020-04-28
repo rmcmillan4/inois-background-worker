@@ -22,7 +22,6 @@ public class KeyService {
     private static final String keyVaultUrl = System.getenv("APPSETTING_KvUrl");
     private static final String tenantId = System.getenv("APPSETTING_TenantId");
     private static final String encryptionKeyName = "B64FileIngestEncryptionKey";
-    //private static String saltKeyName = "B64ClientSalt";
     private static String internalSaltKeyName = "B64InternalSalt";
 
 

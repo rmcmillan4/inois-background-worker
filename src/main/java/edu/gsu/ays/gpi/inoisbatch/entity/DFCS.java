@@ -6,13 +6,10 @@ import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 import edu.gsu.ays.gpi.inoisbatch.exceptions.HashingError;
 import edu.gsu.ays.gpi.inoisbatch.services.HashService;
-import org.apache.commons.lang3.NotImplementedException;
 import com.univocity.parsers.annotations.Parsed;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;

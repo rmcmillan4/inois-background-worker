@@ -2,7 +2,6 @@ package edu.gsu.ays.gpi.inoisbatch.entity;
 
 
 import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
-
 import java.io.IOException;
 import java.util.List;
 
