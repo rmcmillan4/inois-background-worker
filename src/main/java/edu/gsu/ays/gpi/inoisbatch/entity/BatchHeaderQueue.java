@@ -124,6 +124,7 @@ public class BatchHeaderQueue {
     @Override
     public String toString() {
         return "BatchHeaderQueue{" +
+                "batchId='" + id + '\'' +
                 "batchIdentifier='" + batchIdentifier + '\'' +
                 "registeredEntity='" + registeredEntity + '\'' +
                 "entityUser='" + entityUser + '\'' +
