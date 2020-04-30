@@ -345,7 +345,7 @@ public class DFCS implements InoisEntity {
                         "?, ?, ?, ?," +
                         "?, ?, ?, ?)",
                 this.batch,
-                50, //batch size
+                100, //batch size
                 new ParameterizedPreparedStatementSetter<DFCS>() {
                     public void setValues(PreparedStatement ps, DFCS entity) throws SQLException {
                         ps.setString(1, user);
@@ -414,7 +414,7 @@ public class DFCS implements InoisEntity {
                         "    INSERT (CREATED, CREATED_BY, UPDATED, UPDATED_BY, HASH, COLUMN_HASHED, PREVIOUS_HASHES)\n" +
                         "    VALUES (history_object.CREATED, history_object.CREATED_BY, history_object.UPDATED, history_object.UPDATED_BY, history_object.HASH, history_object.COLUMN_HASHED, history_object.PREVIOUS_HASHES);",
                 this.batch,
-                50, //batch size
+                100, //batch size
                 new ParameterizedPreparedStatementSetter<DFCS>() {
                     public void setValues(PreparedStatement ps, DFCS entity) throws SQLException {
                         ps.setString(1, user);
@@ -434,7 +434,7 @@ public class DFCS implements InoisEntity {
                         "    INSERT (CREATED, CREATED_BY, UPDATED, UPDATED_BY, HASH, COLUMN_HASHED, PREVIOUS_HASHES)\n" +
                         "    VALUES (history_object.CREATED, history_object.CREATED_BY, history_object.UPDATED, history_object.UPDATED_BY, history_object.HASH, history_object.COLUMN_HASHED, history_object.PREVIOUS_HASHES);",
                 this.batch,
-                50, //batch size
+                100, //batch size
                 new ParameterizedPreparedStatementSetter<DFCS>() {
                     public void setValues(PreparedStatement ps, DFCS entity) throws SQLException {
                         ps.setString(1, user);
