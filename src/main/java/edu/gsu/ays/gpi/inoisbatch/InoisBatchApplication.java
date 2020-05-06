@@ -25,7 +25,7 @@ public class InoisBatchApplication {
         SpringApplication.run(InoisBatchApplication.class, args);
     }
 
-    @Scheduled(fixedDelay = 120000)
+    @Scheduled(fixedDelay = 90000)
     public void perform() throws Exception
     {
         JobParameters params = new JobParametersBuilder()

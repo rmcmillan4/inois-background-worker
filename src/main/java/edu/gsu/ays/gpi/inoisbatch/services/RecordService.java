@@ -57,7 +57,9 @@ public class RecordService {
 
         try{
             entity.writeHashHistory();
+            log.info("Successfully wrote hash records");
             entity.writeBatch();
+            log.info("Successfully wrote entity records");
         }
         catch (Exception ex){
             log.error("Record write to the DB failed");
