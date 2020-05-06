@@ -43,6 +43,8 @@ CREATE TABLE dbo.dfcs (
     ID_PERSON_hash VARCHAR(255) NOT NULL,
     NBR_PERSON_ID_NUMBER_hash VARCHAR(255) NOT NULL,
     BATCH_IDENTIFIER VARCHAR(255) NOT NULL
+    FOREIGN KEY (ID_PERSON_hash) REFERENCES dbo.dfcs_hash (HASH)
+    FOREIGN KEY (NBR_PERSON_ID_NUMBER_hash) REFERENCES dbo.dfcs_hash (HASH)
 );
 
 
@@ -64,3 +66,60 @@ CREATE TABLE dbo.dfcs_hash (
       COLUMN_HASHED VARCHAR(255) NOT NULL,
       PREVIOUS_HASHES VARCHAR(4000)
 );
+
+/****** Object:  Table [dbo].[dfcs]    Script Date: 5/5/2020 5:13:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[dfcs](
+                             [ID] [int] IDENTITY(1,1) NOT NULL,
+                             [CREATED] [datetime] NOT NULL,
+                             [CREATED_BY] [varchar](255) NOT NULL,
+                             [UPDATED] [datetime] NOT NULL,
+                             [UPDATED_BY] [varchar](255) NOT NULL,
+                             [CD_ADOPT_CNTRY] [varchar](255) NULL,
+                             [CD_ADOPT_COUNTY] [varchar](255) NULL,
+                             [CD_PERSON_CHAR] [varchar](255) NULL,
+                             [CD_PERSON_DEATH] [varchar](255) NULL,
+                             [CD_ADOPT_STATE] [varchar](255) NULL,
+                             [CD_PERSON_ETHNIC_GROUP] [varchar](255) NULL,
+                             [CD_PERSON_IMMIGRATION_STATUS] [varchar](255) NULL,
+                             [CD_PERSON_LANGUAGE] [varchar](255) NULL,
+                             [CD_PERSON_LIV_ARR] [varchar](255) NULL,
+                             [CD_PERSON_MARITAL_STATUS] [varchar](255) NULL,
+                             [CD_PERSON_PROOF_CITIZENSHIP] [varchar](255) NULL,
+                             [CD_PERSON_RELIGION] [varchar](255) NULL,
+                             [CD_PERSON_SEX] [varchar](255) NULL,
+                             [CD_PERSON_STATUS] [varchar](255) NULL,
+                             [CD_PERSON_SUFFIX] [varchar](255) NULL,
+                             [CD_PERSON_TITLE] [varchar](255) NULL,
+                             [CD_SINGLE_MOTHER_FATHER] [varchar](255) NULL,
+                             [DT_DISSOLUTION] [varchar](255) NULL,
+                             [DT_PERSON_BIRTH] [varchar](255) COLLATE Latin1_General_BIN2 ENCRYPTED WITH (COLUMN_ENCRYPTION_KEY = [CEK_Auto1], ENCRYPTION_TYPE = Deterministic, ALGORITHM = 'AEAD_AES_256_CBC_HMAC_SHA_256') NULL,
+                             [DT_PERSON_DEATH] [varchar](255) COLLATE Latin1_General_BIN2 ENCRYPTED WITH (COLUMN_ENCRYPTION_KEY = [CEK_Auto1], ENCRYPTION_TYPE = Deterministic, ALGORITHM = 'AEAD_AES_256_CBC_HMAC_SHA_256') NULL,
+                             [GENDER] [varchar](255) NULL,
+                             [ID_PERSON] [varchar](255) NULL,
+                             [IND_AUTO_PERS_MERGE] [varchar](255) NULL,
+                             [IND_PERSON_DOB_APPROX] [varchar](255) NULL,
+                             [IND_PREV_ADOPTED] [varchar](255) NULL,
+                             [IND_PUBLIC] [varchar](255) NULL,
+                             [IND_SINGLE_PAR_ADOPT] [varchar](255) NULL,
+                             [NBR_PERSON_AGE] [varchar](255) NULL,
+                             [NBR_PERSON_ID_NUMBER] [varchar](255) NULL,
+                             [NBR_PERSON_PHONE] [varchar](255) COLLATE Latin1_General_BIN2 ENCRYPTED WITH (COLUMN_ENCRYPTION_KEY = [CEK_Auto1], ENCRYPTION_TYPE = Deterministic, ALGORITHM = 'AEAD_AES_256_CBC_HMAC_SHA_256') NULL,
+                             [NM_PERSON_FIRST] [varchar](255) COLLATE Latin1_General_BIN2 ENCRYPTED WITH (COLUMN_ENCRYPTION_KEY = [CEK_Auto1], ENCRYPTION_TYPE = Deterministic, ALGORITHM = 'AEAD_AES_256_CBC_HMAC_SHA_256') NULL,
+                             [NM_PERSON_LAST] [varchar](255) COLLATE Latin1_General_BIN2 ENCRYPTED WITH (COLUMN_ENCRYPTION_KEY = [CEK_Auto1], ENCRYPTION_TYPE = Deterministic, ALGORITHM = 'AEAD_AES_256_CBC_HMAC_SHA_256') NULL,
+                             [NM_PERSON_FULL] [varchar](255) COLLATE Latin1_General_BIN2 ENCRYPTED WITH (COLUMN_ENCRYPTION_KEY = [CEK_Auto1], ENCRYPTION_TYPE = Deterministic, ALGORITHM = 'AEAD_AES_256_CBC_HMAC_SHA_256') NULL,
+                             [TXT_NAME_OF_ADO_AGENCY] [varchar](255) NULL,
+                             [TXT_PERSON_OCCUPATION] [varchar](255) NULL,
+                             [TXT_PERSON_OTHER_RELATIONSHIPS] [varchar](255) NULL,
+                             [ID_PERSON_hash] [varchar](255) NOT NULL,
+                             [NBR_PERSON_ID_NUMBER_hash] [varchar](255) NOT NULL,
+                             [BATCH_IDENTIFIER] [varchar](255) NOT NULL,
+                             CONSTRAINT [PK__dfcs__3214EC27958BA633] PRIMARY KEY CLUSTERED
+                                 (
+                                  [ID] ASC
+                                     )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
