@@ -22,7 +22,7 @@ public class BatchHeaderQueueDao {
     }
 
     public List<BatchHeaderQueue> getRecordToProcess(){
-        return jdbcTemplate.query("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 1 ORDER BY created;", new BatchHeaderQueueMapper());
+        return jdbcTemplate.query("SELECT TOP 1 * FROM dbo.batch_header_queue WHERE status_id = 1 AND created < DATEADD(minute, -15, CURRENT_TIMESTAMP) ORDER BY created;", new BatchHeaderQueueMapper());
     }
 
     public void updateRecordToProcess(Long id, Long status){
