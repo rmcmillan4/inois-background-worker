@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class DecryptionService {
 
-    private static Logger log = LoggerFactory.getLogger(FileService.class);
+    private static Logger log = LoggerFactory.getLogger(DecryptionService.class);
 
     public static String decryptFile(String fileContents) {
         log.info("Decrypting file...");

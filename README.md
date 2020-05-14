@@ -14,7 +14,7 @@ Azure security and storage resources:
 APPSETTING_KvAccessClientId      (Azure Key Vault Property)
 APPSETTING_KvAccessClientSecret  (Azure Key Vault Property)
 APPSETTING_KvUrl                 (Azure Key Vault Property)
-APPSETTING_TenantId              (Azure Key Vault Property)
+APPSETTING_TenantId              (Azure Active Directory Property)
 APPSETTING_StorageAccountKey     (Azure Blob Storage Property)
 APPSETTING_BlobContainerIngest   (Azure Blob Storage Property)
 APPSETTING_StorageAccountName    (Azure Blob Storage Property)

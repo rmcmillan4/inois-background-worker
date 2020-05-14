@@ -293,6 +293,9 @@ public class DFCS implements InoisEntity {
         if (idPersonHash == null || nbrPersonIdNumberHash == null) throw new HashingError(("Values to hash cannot be null."));
         idPersonHash = HashService.hashValue(idPersonHash, saltKey);
         nbrPersonIdNumberHash = HashService.hashValue(nbrPersonIdNumberHash, saltKey);
+        //comment the two lines below to write idPerson and nbrPersonIdNumber to the DFCS database
+        if(idPerson != null) idPerson = "";
+        if(nbrPersonIdNumber != null) nbrPersonIdNumber = "";
     }
 
     public void generatePreviousHashes(List<KeyVaultSecret> saltKeys){
