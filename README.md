@@ -35,3 +35,9 @@ After successful installation, execute the following command:
 ```
 java -jar demo-0.0.1-SNAPSHOT.jar
 ```
+## Deploying to Azure
+This application is configured to allow automatic deployment to Azure via Maven. To deploy the application, execute the following two commands:
+```
+mvn clean package
+mvn azure-webapp:deploy
+```
